@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    для прикладу щоб показати коли ми шукаємо бін по класу і коли є кілька, то буде  NoUniqueBeanDefinitionException-->
+<!--    <bean class="com.study.spring.database.pool.ConnectionPool" />-->
+<!--    <bean class="com.study.spring.database.pool.ConnectionPool" />-->
+
+<!--    коли ми добавляємо унікальні ідентифікатори   id -->
+<!--    <bean id="pool1" class="com.study.spring.database.pool.ConnectionPool" />-->
+<!--    <bean id="pool2" class="com.study.spring.database.pool.ConnectionPool" />-->
+
+<!--    коли ми добавляємо унікальні ідентифікатори   id, також можна передавати аліаси, які записуємо у  name, але вони також мають бути унікальними-->
+<!--    аліаси даємо тоді коли хочемо використати більш доцільну назву біна-->
+    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool" />
+    <bean id="pool2" name="p2" class="com.study.spring.database.pool.ConnectionPool" />
+</beans>
