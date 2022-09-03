@@ -39,6 +39,13 @@ public class AppRunner {
 //        UserRepository userRepository = container.get(UserRepository.class);
 //        CompanyRepository companyRepository = container.get(CompanyRepository.class);
         UserService userService = container.get(UserService.class);
+        
+        
+        /*
+             spring container реалізований простою MAP -ою, 
+                де ключ - це СТРІНГ як унікальний id, 
+                а значення - це сам об'єкт з усіма своїми залежностями 
+         */
 
 
     }
