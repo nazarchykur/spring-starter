@@ -6,33 +6,34 @@
                              http://www.springframework.org/schema/beans/spring-beans.xsd
                              http://www.springframework.org/schema/context
                              http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-
-<!--    тепер тут спрінг сам створить цей бін, щоб ми не конфігурували його вручну   -->
-<!--    і так як у нас є цей файл, то тепер можна використовувати спрінг експрешн ленгвідж )  SPeL-->
-
-<!--            ${}   де вказуємо ключ з файла щоб прочитати значення-->
-<!--            #{}   тут можна вказати навіть якийсь вираз (1+2, патерна іт.д, і навіть достукатися до інших бінів і їх полів + джава код) -->
     
-
+    <context:annotation-config/>
     <context:property-placeholder location="classpath:application.properties"/>
     
-<!--    а так як ініціалізація такого біна є майже у всіх спрінг проєктах, то потрібно змінити шапку бінів, щоб зчитувати з контексту-->
-<!--    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
-<!--&lt;!&ndash;        <property name="location" value="classpath:application.properties"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        в даному випадку можна і без classpath:   бо по замовчуваннню тут і шукається&ndash;&gt;-->
-<!--        -->
-<!--        <property name="location" value="application.properties"/>-->
-<!--    </bean>-->
+    
 
+<!--    але для того щоб мати можливість використовувати ці анотації, потрібно спершу додати відповідний бін-->
+<!--    також можна добавити -->
+<!--            <context:annotation-config/> -->
+<!--    -->
+<!--    але окрім    CommonAnnotationBeanPostProcessor-->
+<!--        annotation-config-->
+<!--                добавить ще кілька бінів, які опрацьовують інші анотації-->
+<!--    -->
+<!--    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
     
 <!--    замість вручну вписаних значень тепер передаємо їх з файлу-->
     <bean id="driver" class="java.lang.String">
         <constructor-arg type="java.lang.String" value="${db.driver}"/>
     </bean>
 
-    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool"
-          init-method="init"
-          destroy-method="destroy">
+<!--    тепер будемо використовувати анотації, тому видаляємо ці методи   init-method  і destroy-method-->
+
+<!--    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool"-->
+<!--          init-method="init"              -->
+<!--          destroy-method="destroy">       -->
+    
+    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool">
         <constructor-arg name="username" type="java.lang.String" ref="driver"/>
         <constructor-arg name="properties" type="java.util.Map">
             <null/>

@@ -6,26 +6,17 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class AppRunner {
     public static void main(String[] args) {
 /*
-        оскільки він має бути першим у ції цепочці, то СПРІНГ його має перше найти і поставити у ції цепочці першим
-        для цього використовується  проста перевірка спеціального методу
-                isAssignableFrom
-                
-         тобто береться цей клас і перевіряється чи він звязаний з цим класом чи ні 
-         
-         якщо дуже покопатися у методі getBean(Class clazz)
-            то в дефолтній реалізації можна побачити Resolver   forRawClass()
-                де всередині через ClassUtils.isAssignable()  йде далі перевірка до методу    isAssignableFrom()
-                
-         це все для того аби ми дістали потрібні біти конкретного типу, тому такі біни потрібні для ініціалізації інших бінів
-         тому то така цепочка є у цьому IoC container     
+    щоб використовувати анотації 
+            import javax.annotation.PostConstruct;
+            import javax.annotation.PreDestroy;
+            
+    потрібно добавити ще одну залежність до build.gradle 
+            implementation 'jakarta.annotation:jakarta.annotation-api:1.3.5'  
+            
+            
+    а також додати відповідний бін до      resources/application.xml
+            <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
  */
-
-        String value = "hello";
-        System.out.println(CharSequence.class.isAssignableFrom(value.getClass())); // true
-
-        System.out.println(BeanFactoryPostProcessor.class.isAssignableFrom(value.getClass())); // false
-        
-        
 
         try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("application.xml")) {
             ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
@@ -38,41 +29,35 @@ public class AppRunner {
         /*
         
         IMAGES
-                resources/images/lesson_2.8_BeanFactoryPostProcessor/beans lifecycle + BeanFactoryPostProcessor.png
+                resources/images/lesson_3.1_Annotation-based_Configuration/context annotation-config schema.png
 
                 
          
+         давай розглянемо цю картинку
          
-         BeanFactoryPostProcessor
-         
-                public interface BeanFactoryPostProcessor {
-                        void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
-                }
-                
-                
-         тепер зайдемо на його імплементацію, тобто клас 
-                        PropertySourcesPlaceholderConfigurer  postProcessBeanFactory() 
-               
-              якраз у цьому методі і відбувається ініціалізація проперті сорси і енвайромент 
-              де пізніше і підставляються значення з нашого файлу
-                        resources/application.properties
+         у центрі 
+                    <context:annotation-config/>
                     
-                    
-                  
-
-         
-             Отже повертаємось до beans lifecycle, де до IoC container додаємо тепер BeanFactoryPostProcessor
-             
-                        images => resources/images/lesson_2.8_BeanFactoryPostProcessor/beans lifecycle + BeanFactoryPostProcessor.png
-                    
-             тобто тут СПРІНГ створює ці біни (їх може бути кілька), з допомогою якого ми читаємо всі потрібні значення 
-             з проперті файлів, а далі та сама цепочка, яку ми переглянули на попередніх уроках
-                    
-                    
-             оскільки  BeanFactoryPostProcessor  має бути першим у ції цепочці, то СПРІНГ його має перше найти і поставити у ції цепочці першим
-             для цього використовується  проста перевірка спеціального методу 
-                            isAssignableFrom     
-                
+                         |                                 |-  ConfigurationClassPostProcessor -- @Configuration                 
+                         | - BeanFactoryPostProcessor    - |
+                         |                                 |-  EventListenerMethodProcessor   --- @EventListener
+                         |
+                         |
+                         |
+                         |                                                                              |- @Autowired
+                         |                                    |- AutowiredAnnotationBeanPostProcessor --|
+                         |                                    |                                         |- @Value
+                         |                                    |
+                         |                                    |
+                         |                                    |                                         |- @Resource
+                         | - BeanPostProcessor -------------- | CommonAnnotationBeanPostProcessor ------|- @PostConstruct
+                                                              |                                         |- @PreDestroy
+                                                              |                                          
+                                                              |
+                                                              |                                          |- @PersistenceContext
+                                                              |- PersistenceAnnotationBeanPostProcessor -|
+                                                                                                         |- @PersistenceUnit                                                                              
+                         
          */
 
 
