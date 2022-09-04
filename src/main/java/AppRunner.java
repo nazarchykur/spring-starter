@@ -9,6 +9,18 @@ public class AppRunner {
     public static void main(String[] args) {
         
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("application.xml");
+        
+        /*
+            так само тут тепер через те що scope="prototype"
+            то контекст знову проганяє через всю цепочку ініціалізації, щоб повернути новий бін
+    
+            як висновок стає зрозуміло, що біни зі скоупом прототайп не зберігаються у Мапі
+                            clazz -> String -> Map<String, Object>
+                            
+                 бо ключ має біти унікальний           
+         */
+
+                                
         ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
         System.out.println(connectionPool);  
         
@@ -17,38 +29,26 @@ public class AppRunner {
         System.out.println(companyRepository);
         
         /*
-         PROPERTY INJECTION
+        
+        IMAGES
+            resources/images/lesson_9_bean-scope/bean-scope_schema-all.png
+            resources/images/lesson_9_bean-scope/bean-scope_prototype.png
+                
+         Bean Scopes
          
-            щоб використовувати ініціалізацію через  сетер  ми маємо забрати модифікатор  final
-            в цьому є один із мінусів використання, тобто ми не можемо зробити наш об'єкт IMMUTABLE - НЕЗМІННИЙ
-            другий мінус - можна зробити циклічність одного об'єкта на інший
+         -> Common
+                -> singleton
+                -> prototape
             
-                через конструктор можна було би  ініціалізувати один раз всі наші поля, тобто ми зразу знаємо які залежності нам потрібні 
-                    тобто конструктор є краший багатопоточності через можливість створити об'єкт IMMUTABLE
+         -> Web
+                -> request   => web scopes активно використовує Proxy, щоб можна було інджектити їх у SINGLETONS
+                -> session
+                -> application
+                -> websocket
                 
-           а ініціалізувати через сетер можна тоді коли є якась OPTIONAL залежність
-
-
-            IMEGES
-                resources/images/lesson_8_xml-based_property-injection/IoC beans lifecycle.png
+          -> Custom
+            
                 
-                
-                
-                
-         Beans lifecycle
-             
-                отже на вхід у нас є список    Bean Definition
-                    IoC container  читає їх щоб відсортувати і подивитися всі їх залежності
-                        -> тобто створюються перше ті біни, які без залежностей, 
-                           а далі більш складні, щоб мати можливість створити бін з готовими залежностями
-                    
-                    
-                     по циклу пробігаємося по списку
-                          і для кожного  Bean Definition  перше викликається конструктор, щоб створити об'єкт, а далі через сетери
-                          
-                          
-                     і на виході маємо всі готові біни з всіма потрібними залежностями     
-                            
          */
         
 
