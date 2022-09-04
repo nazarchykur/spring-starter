@@ -11,13 +11,7 @@ public class ConnectionPool implements InitializingBean {
     private final String username;
     private final Integer poolSize;
     private final List<Object> args;
-
-
-//    private final Map<String, Object> properties;
     
-//    щоб використовувати ініціалізацію через  сетер  ми маємо забрати модифікатор  final
-//    в цьому є один із мінусів використання, тобто ми не можемо зробити наш об'єкт IMMUTABLE - НЕЗМІННИЙ
-//    другий мінус - можна зробити циклічність одного об'єкта на інший
     private Map<String, Object> properties;
 
     public ConnectionPool(String username, Integer poolSize, List<Object> args, Map<String, Object> properties) {
@@ -34,23 +28,6 @@ public class ConnectionPool implements InitializingBean {
     private void init() {
         System.out.println("Init connection pool");
     }
-    
-    /*
-    краще не використовувати   implements InitializingBean   бо порушуємо принцип IoC
-
-    ми маємо вибрати тільки один варіант з 3
-         є три способи:
-            1 - @PostConstruct
-            2 - afterPropertiesSet() - InitializingBean
-            3 - init-method - xml
-            
-      якщо будуть кілька способів , то порядок по списку
-      
-      
-      не приймають параметрів і тип повернення void
-            void init()
-            void afterPropertiesSet()
-     */
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("afterPropertiesSet connection pool");

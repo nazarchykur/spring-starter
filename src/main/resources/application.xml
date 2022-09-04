@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                             http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <bean id="driver" class="java.lang.String">
-        <constructor-arg type="java.lang.String" value="PostgresDriver"/>
-    </bean>
-<!--    -->
-<!--    по замовчуваннню всі біни singleton (тільки один на цілий наш проєкт), але можемо створити  prototype-->
-<!--    і тоді при кожному посиланні на цей бін, буде створюватися новий бін-->
+<!--    тепер тут спрінг сам створить цей бін, щоб ми не конфігурували його вручну   -->
+<!--    і так як у нас є цей файл, то тепер можна використовувати спрінг експрешн ленгвідж )  SPeL-->
+
+<!--            ${}   де вказуємо ключ з файла щоб прочитати значення-->
+<!--            #{}   тут можна вказати навіть якийсь вираз (1+2, патерна іт.д, і навіть достукатися до інших бінів і їх полів + джава код) -->
     
-    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool" 
+
+    <context:property-placeholder location="classpath:application.properties"/>
+    
+<!--    а так як ініціалізація такого біна є майже у всіх спрінг проєктах, то потрібно змінити шапку бінів, щоб зчитувати з контексту-->
+<!--    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+<!--&lt;!&ndash;        <property name="location" value="classpath:application.properties"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        в даному випадку можна і без classpath:   бо по замовчуваннню тут і шукається&ndash;&gt;-->
+<!--        -->
+<!--        <property name="location" value="application.properties"/>-->
+<!--    </bean>-->
+
+    
+<!--    замість вручну вписаних значень тепер передаємо їх з файлу-->
+    <bean id="driver" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="${db.driver}"/>
+    </bean>
+
+    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool"
           init-method="init"
-          destroy-method="destroy"  
-    >
+          destroy-method="destroy">
         <constructor-arg name="username" type="java.lang.String" ref="driver"/>
         <constructor-arg name="properties" type="java.util.Map">
             <null/>
         </constructor-arg>
-        <constructor-arg name="poolSize" type="java.lang.Integer" value="10"/>
+        <constructor-arg name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
         <constructor-arg name="args" type="java.util.List">
             <list>
                 <value>--arg1=value1</value>
@@ -31,13 +50,18 @@
                 <entry key="url" value="postgresurl"/>
                 <entry key="password" value="123"/>
                 <entry key="driver" value-ref="driver"/>
+                <entry key="test" value="#{driver.substring(3)}"/>
+                <entry key="test2" value="#{driver.length() > 10}"/>
+                <entry key="test3" value="#{driver.length() > T(Math).random() * 10}"/> 
+                <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/> 
+                <entry key="currentUse" value="#{systemProperties['user.name']}"/> 
+                <entry key="currentUse" value="${user.name}"/> 
             </map>
         </property>
-    </bean> 
+    </bean>
 
-<!--    наприклад тут бачимо посилання  отже створиться і передасться новий бін -->
-  <bean id="companyRepository" class="com.study.spring.database.repository.CompanyRepository" factory-method="of">
-      <constructor-arg ref="pool1"/>
-  </bean>
-    
+    <bean id="companyRepository" class="com.study.spring.database.repository.CompanyRepository" factory-method="of">
+        <constructor-arg ref="pool1"/>
+    </bean>
+
 </beans>
