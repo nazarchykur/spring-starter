@@ -4,21 +4,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AppRunner {
     public static void main(String[] args) {
-    /*
-    lesson_3.2_Annotation-based_Configuration_BeanPostProcessor
-
-    щоб використовувати анотації 
-            import javax.annotation.PostConstruct;
-            import javax.annotation.PreDestroy;
-            
-    потрібно добавити ще одну залежність до build.gradle 
-            implementation 'jakarta.annotation:jakarta.annotation-api:1.3.5'  
-            
-            
-    а також додати відповідний бін до      resources/application.xml
-            <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
- */
-
         try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("application.xml")) {
             ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
             System.out.println(connectionPool);
@@ -26,6 +11,18 @@ public class AppRunner {
             CompanyRepository companyRepository = context.getBean("companyRepository", CompanyRepository.class);
             System.out.println(companyRepository);
         }
+        
+        /*
+            є інтерфейс маркер  Aware, яким позначено багато бінів у спрінгу, щоб знати які біни, коли і як їх потрібно ініціалізувати
+            
+                серед них є   ApplicationContextAware
+                        з цього інтерфесу ми можемо витягнути КОНТЕКСТ
+                        імплементуючи який ми через сетер витягнули
+                 
+            
+         */
+        
+        
         
         /*
         
