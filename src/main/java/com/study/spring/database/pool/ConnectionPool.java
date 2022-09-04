@@ -1,9 +1,13 @@
 package com.study.spring.database.pool;
 
+import org.springframework.beans.factory.InitializingBean;
+
 import java.util.List;
 import java.util.Map;
 
-public class ConnectionPool {
+//краще не використовувати   implements InitializingBean   бо порушуємо принцип IoC
+public class ConnectionPool implements InitializingBean {
+//public class ConnectionPool {
     private final String username;
     private final Integer poolSize;
     private final List<Object> args;
@@ -25,5 +29,35 @@ public class ConnectionPool {
 
     public void setProperties(Map<String, Object> properties) {
         this.properties = properties;
+    }
+
+    private void init() {
+        System.out.println("Init connection pool");
+    }
+    
+    /*
+    краще не використовувати   implements InitializingBean   бо порушуємо принцип IoC
+
+    ми маємо вибрати тільки один варіант з 3
+         є три способи:
+            1 - @PostConstruct
+            2 - afterPropertiesSet() - InitializingBean
+            3 - init-method - xml
+            
+      якщо будуть кілька способів , то порядок по списку
+      
+      
+      не приймають параметрів і тип повернення void
+            void init()
+            void afterPropertiesSet()
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("afterPropertiesSet connection pool");
+    }
+
+//    методи destroy викликаються тільки тоді коли закривається ApplicationContext
+    private void destroy() {
+        System.out.println("Clean connection pool");
     }
 }
