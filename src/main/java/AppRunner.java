@@ -6,48 +6,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class AppRunner {
     
     /*
-     анотації, пов’язані з впровадженням залежностей, а саме анотації @Resource , @Inject і @Autowired . Ці анотації надають класам декларативний спосіб вирішення залежностей:
-
-            @Autowired 
-            ArbitraryClass arbObject;
-            
-     На відміну від їх прямого створення (імперативний спосіб):
-            ArbitraryClass arbObject = new ArbitraryClass();
-            
-      Дві з трьох анотацій належать до пакета розширення Java: javax.annotation.Resource і javax.inject.Inject. 
-      Анотація @Autowired належить до пакета org.springframework.beans.factory.annotation.  
-      
-      
-      
-      @Resource
-      Анотація @Resource є частиною колекції анотацій JSR-250 і входить до складу Jakarta EE. Ця анотація має наступні шляхи виконання, упорядковані за пріоритетністю:
-            1) Match by Name
-            2) Match by Type
-            3) Match by Qualifier
-            
-          Ці шляхи виконання застосовні як до сеттера, так і до поля.   
-            
-            
-       @Inject
-       Анотація @Inject належить до колекції анотацій JSR-330. Ця анотація має наступні шляхи виконання, упорядковані за пріоритетністю:
-            1) Match by Type
-            2) Match by Qualifier
-            3) Match by Name
-            
-        Ці шляхи виконання застосовні як до сеттера, так і до поля. Щоб отримати доступ до анотації @Inject , ми повинні оголосити бібліотеку javax.inject як залежність Gradle або Maven.    
-        
-        
-       @Autowired
-       Поведінка анотації @Autowired подібна до анотації @Inject . Єдина відмінність полягає в тому, що анотація @Autowired є частиною Spring framework. Ця анотація має ті самі шляхи виконання, що й анотація @Inject , перераховані в порядку пріоритету:
-            1) Match by Type
-            2) Match by Qualifier
-            3) Match by Name
-        Ці шляхи виконання застосовні як до сеттера, так і до польового введення.  
-        
-        щодо  NoUniqueBeanDefinitionException, викликаною кількома компонентами. 
-        Spring Framework не знає, яка залежність bean-компонента повинна бути автоматично підключена. 
-        Ми можемо вирішити цю проблему, додавши анотацію @Qualifier , де можемо вказати імя або аліаси  @Qualifier("anotherAutowiredFieldDependency"),
-        або переіменувати саму назву поля
+     
+     component scans schema
+     
+         ComponentScanBeanDefinitionParser  => XMl         ->  <context:component-scan base-package="com.study.spring"/>
+         ComponentScanAnnotationParser      => Annotation  ->  @ComponentScan
         
      */
     public static void main(String[] args) {
