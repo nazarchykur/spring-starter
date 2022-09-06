@@ -10,7 +10,7 @@
     
     
 <!--    <context:annotation-config/>-->
-    <context:property-placeholder location="classpath:application.properties"/>
+<!--    <context:property-placeholder location="classpath:application.properties"/>-->
     
 <!--    у xml файлі створюючи бін ми маємо вказати конструктор, який будемо використовувати для створення цього біна                    -->
 <!--    якщо ми не вказали, то повинен бути якийсь конструктор без параметрів у цьому класі                                             -->
@@ -24,7 +24,7 @@
 <!--                                                                                                                                    -->
 <!--    тепер спробуємо почистити цей xml файл і переробити на автоматичне сканування                                                   -->
     
-    <context:component-scan base-package="com.study.spring"/>
+<!--    <context:component-scan base-package="com.study.spring"/>-->
 
 <!--    annotation-config   можемо видалити бо  component-scan  включає її для пошуку всіх BeanPostProcessor, тобто ті 5 основних    -->
 <!--        - BeanPostProcessor:                                                                                                     -->

@@ -1,23 +1,36 @@
+import com.study.spring.config.AppConfiguration;
 import com.study.spring.database.pool.ConnectionPool;
 import com.study.spring.database.repository.CompanyRepository;
 import com.study.spring.database.repository.CrudRepository;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AppRunner {
     
     /*
      
-     JSR 250, JSR 330
-     
-     JSR - Java Specification Requests
-     
-     
-    щоб використовувати анотації з JSR 330 потрібно додати депенденсі
-            implementation 'javax.inject:javax.inject:1'
+        @Configuration
+        так, як ці анотації йдуть від    BeanFactoryPostProcessor, то вони будуть опрацьовуватися у першу чергу (див перші лекції)
+        
+        флоу +- такий:
+        
+        зазвичай створюється окрема папка  наприклад   config  , де створюється всі потрібні конфігурації
+            - конфігурації щодо БД
+            - для роботи з іншими сервісами
+            - для роботи з веб додатками
+            - для роботи, наприклад з якимось Messages Broker 
+            ...
+            
         
      */
     public static void main(String[] args) {
-        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("application.xml")) {
+        /*
+        так як ми переходимо на використання тільки анотації, то замінюємо відповідний контекст клас 
+        замість   ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("application.xml")   де ми вказували xml файл
+        вказуємо  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class)  де передаємо наш конфіг клас
+                
+         */
+        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class)) {
             ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
             System.out.println(connectionPool);
 
