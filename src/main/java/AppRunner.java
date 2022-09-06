@@ -7,10 +7,13 @@ public class AppRunner {
     
     /*
      
-     component scans schema
+     JSR 250, JSR 330
      
-         ComponentScanBeanDefinitionParser  => XMl         ->  <context:component-scan base-package="com.study.spring"/>
-         ComponentScanAnnotationParser      => Annotation  ->  @ComponentScan
+     JSR - Java Specification Requests
+     
+     
+    щоб використовувати анотації з JSR 330 потрібно додати депенденсі
+            implementation 'javax.inject:javax.inject:1'
         
      */
     public static void main(String[] args) {
