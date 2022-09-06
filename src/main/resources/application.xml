@@ -11,16 +11,12 @@
     <context:property-placeholder location="classpath:application.properties"/>
 
     <bean class="com.study.spring.bpp.InjectBeanPostProcessor"/>
+    <bean class="com.study.spring.bpp.TransactionBeanPostProcessor"/>
+    <bean class="com.study.spring.bpp.AuditingBeanPostProcessor"/>
     
     <bean id="driver" class="java.lang.String">
         <constructor-arg type="java.lang.String" value="${db.driver}"/>
     </bean>
-
-<!--    тепер будемо використовувати анотації, тому видаляємо ці методи   init-method  і destroy-method-->
-
-<!--    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool"-->
-<!--          init-method="init"              -->
-<!--          destroy-method="destroy">       -->
     
     <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool">
         <constructor-arg name="username" type="java.lang.String" ref="driver"/>
