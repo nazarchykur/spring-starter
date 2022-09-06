@@ -9,45 +9,62 @@
     
     <context:annotation-config/>
     <context:property-placeholder location="classpath:application.properties"/>
+    
+<!--    у xml файлі створюючи бін ми маємо вказати конструктор, який будемо використовувати для створення цього біна                    -->
+<!--    якщо ми не вказали, то повинен бути якийсь конструктор без параметрів у цьому класі                                             -->
+<!--                                                                                                                                    -->
+<!--    а так як ми хочемо позначати наші поля   final , то повинні викликали наш один єдиний конструктор для їх ініціалізації          -->
+<!--                                                                                                                                    -->
+<!--    для цього вже є механізм і він називається  component-scan  , у якому ми вказуємо пакет, у якому будемо провіряти по якомусь фільтру всі наші класи-->
+<!--    якщо клас проходить заданий фільтр то ми створюємо автоматично бін дефінішини, на основі якого будуть створені біни             -->
+<!--                                                                                                                                    -->
+<!--    є уже готовий фільтр який шукає @Component                                                                                      -->
+<!--                                                                                                                                    -->
+<!--    тепер спробуємо почистити цей xml файл і переробити на автоматичне сканування                                                   -->
+    
+    <context:component-scan base-package="com.study.spring"/>
 
-    <bean class="com.study.spring.bpp.InjectBeanPostProcessor"/>
-    <bean class="com.study.spring.bpp.TransactionBeanPostProcessor"/>
-    <bean class="com.study.spring.bpp.AuditingBeanPostProcessor"/>
+<!--    annotation-config   можемо видалити бо  component-scan  включає її для пошуку всіх BeanPostProcessor, тобто ті 5 основних    -->
+<!--        - BeanPostProcessor:                                                                                                     -->
+<!--            - AutowiredAnnotationBeanPostProcessor (@Autowired, @Value)                                                          -->
+<!--            - CommonAnnotationBeanPostProcessor (@Resource, @PostConstruct, @PreDestroy)                                         -->
+<!--            - PersistenceAnnotationBeanPostProcessor (@PersistenceContext, @PersistenceUnit)                                     -->
+<!--        - BeanFactoryPostProcessor:                                                                                              -->
+<!--            - ConfigurationClassPostProcessor (@Configuration)                                                                   -->
+<!--            - EventListenerMethodProcessor (@EventListener)                                                                      -->
+    
+<!--    всі наші пост Процесори позначаємо @Component   і видаляємо з цього файла     -->
+<!--                                                                                  -->
+<!--    <bean class="com.study.spring.bpp.InjectBeanPostProcessor"/>                  -->
+<!--    <bean class="com.study.spring.bpp.TransactionBeanPostProcessor"/>             -->
+<!--    <bean class="com.study.spring.bpp.AuditingBeanPostProcessor"/>                -->
     
     <bean id="driver" class="java.lang.String">
         <constructor-arg type="java.lang.String" value="${db.driver}"/>
     </bean>
 
-    <bean id="pool2" class="com.study.spring.database.pool.ConnectionPool"/>
+
+<!--пізніше коли дойдемо до @ScanConfig-->
     
-    <bean id="pool1" name="p1, p10" class="com.study.spring.database.pool.ConnectionPool">
-        <constructor-arg name="username" type="java.lang.String" ref="driver"/>
-        <constructor-arg name="properties" type="java.util.Map">
-            <null/>
-        </constructor-arg>
-        <constructor-arg name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
-        <constructor-arg name="args" type="java.util.List">
-            <list>
-                <value>--arg1=value1</value>
-                <value>--arg2=value2</value>
-                <ref bean="driver"/>
-            </list>
-        </constructor-arg>
-        <property name="properties">
-            <map>
-                <entry key="url" value="postgresurl"/>
-                <entry key="password" value="123"/>
-                <entry key="driver" value-ref="driver"/>
-                <entry key="test" value="#{driver.substring(3)}"/>
-                <entry key="test2" value="#{driver.length() > 10}"/>
-                <entry key="test3" value="#{driver.length() > T(Math).random() * 10}"/> 
-                <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/> 
-                <entry key="currentUse" value="#{systemProperties['user.name']}"/> 
-                <entry key="currentUse" value="${user.name}"/> 
-            </map>
-        </property>
-    </bean>
-
-    <bean id="companyRepository" class="com.study.spring.database.repository.CompanyRepository" />
-
+<!--    <constructor-arg name="args" type="java.util.List">-->
+<!--        <list>-->
+<!--            <value>&#45;&#45;arg1=value1</value>-->
+<!--            <value>&#45;&#45;arg2=value2</value>-->
+<!--            <ref bean="driver"/>-->
+<!--        </list>-->
+<!--    </constructor-arg>-->
+<!--    <property name="properties">-->
+<!--        <map>-->
+<!--            <entry key="url" value="postgresurl"/>-->
+<!--            <entry key="password" value="123"/>-->
+<!--            <entry key="driver" value-ref="driver"/>-->
+<!--            <entry key="test" value="#{driver.substring(3)}"/>-->
+<!--            <entry key="test2" value="#{driver.length() > 10}"/>-->
+<!--            <entry key="test3" value="#{driver.length() > T(Math).random() * 10}"/>-->
+<!--            <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>-->
+<!--            <entry key="currentUse" value="#{systemProperties['user.name']}"/>-->
+<!--            <entry key="currentUse" value="${user.name}"/>-->
+<!--        </map>-->
+<!--    </property>-->
+    
 </beans>
