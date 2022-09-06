@@ -4,10 +4,8 @@ import com.study.spring.bpp.Auditing;
 import com.study.spring.bpp.Transaction;
 import com.study.spring.database.entity.Company;
 import com.study.spring.database.pool.ConnectionPool;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +21,7 @@ public class CompanyRepository implements CrudRepository<Integer, Company> {
     private final List<ConnectionPool> pools;
     private final Integer poolSize;
 
-    public CompanyRepository(@Qualifier("pool1") ConnectionPool connectionPool, 
+    public CompanyRepository(@Qualifier("pool1") ConnectionPool connectionPool,
                              List<ConnectionPool> pools,
                              @Value("${db.pool.size}") Integer poolSize) {
         this.connectionPool = connectionPool;
@@ -31,7 +29,7 @@ public class CompanyRepository implements CrudRepository<Integer, Company> {
         this.poolSize = poolSize;
     }
 
-    @PostConstruct 
+    @PostConstruct
     public void init() {
         System.out.println("Init company repository");
     }
