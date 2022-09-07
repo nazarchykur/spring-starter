@@ -205,6 +205,73 @@ public class AppRunner {
           Перше, на що ми повинні звернути увагу, це @Valueанотація, яка читає значення з файлу властивостей. 
           Наразі ці значення зчитуються з application.properties.                    
      */
+    
+    
+    
+    /*
+        @Profile
+        
+        Ми використовуємо анотацію @Profile — ми зіставляємо bean з цим конкретним профілем ; анотація просто бере назви одного (або кількох) профілів.
+        
+        Розглянемо базовий сценарій: у нас є компонент, який має бути активним лише під час розробки, але не розгортатися у виробництві.
+        
+        Ми коментуємо цей компонент за допомогою     @Profile("dev"), і він буде присутній у контейнері лише під час розробки. 
+        У   production    бін позначений dev profile  просто не буде активним
+        
+        
+        Наступним кроком є активація та налаштування профілів, щоб відповідні компоненти було зареєстровано в контейнері.
+        
+        Це можна зробити кількома способами, які ми розглянемо в наступних розділах.
+            1) Програмно через інтерфейс WebApplicationInitializer
+            
+                    @Configuration
+                    public class MyWebApplicationInitializer 
+                      implements WebApplicationInitializer {
+                    
+                        @Override
+                        public void onStartup(ServletContext servletContext) throws ServletException {
+                     
+                            servletContext.setInitParameter(
+                              "spring.profiles.active", "dev");
+                        }
+                    }
+                    
+             2) Програмно через ConfigurableEnvironment       
+                        @Autowired
+                        private ConfigurableEnvironment env;
+                        ...
+                        env.setActiveProfiles("someProfile"); 
+                        
+              3) Параметр контексту в web.xml    
+              
+              4) Системний параметр JVM
+                        -Dspring.profiles.active=dev
+                        
+              5) Через  Maven
+              
+              6) самий простий спосіб    у application.properties :
+                        spring.profiles.active=dev
+                        
+               
+               7) @ActiveProfile у тестах    
+                            @ActiveProfiles("dev")  
+                            
+                            
+       ------------------------------------------------------------
+       Спеціальні для профілю файли властивостей
+        
+       Однак найважливішою пов’язаною з профілями функцією Spring Boot є файли властивостей профілю. 
+       Їх потрібно назвати у форматі    application-{profile}.properties .                     
+                            
+       Spring Boot автоматично завантажить властивості у файлі   application.properties   для всіх профілів, 
+       а властивості у файлах   .properties   для певного профілю лише для вказаного профілю.                     
+                            
+       Наприклад, ми можемо налаштувати різні джерела даних для профілів dev і production за допомогою двох файлів з іменами:     
+                application-dev.properties 
+                application-production.properties                    
+                         
+    
+     */
     public static void main(String[] args) {
         /*
         так як ми переходимо на використання тільки анотації, то замінюємо відповідний контекст клас 
@@ -212,6 +279,7 @@ public class AppRunner {
         вказуємо  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class)  де передаємо наш конфіг клас
                 
          */
+
         try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class)) {
             ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
             System.out.println(connectionPool);
@@ -219,6 +287,28 @@ public class AppRunner {
             CrudRepository companyRepository = context.getBean("companyRepository", CrudRepository.class);
             System.out.println(companyRepository.findById(1));
         }
+        
+         /*
+                1 спосіб - це додати до  resources/application.properties  spring.profiles.active=prod
+                2 спосіб
+                     так як на момент виклику контексту вже всі біни будуть створені, то щоб створити біни згідно активного профайлу/профайлів
+                        потрбіно викликати   context.refresh();
+                    
+             */
+        /*
+        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
+            context.register(AppConfiguration.class);
+            context.getEnvironment().setActiveProfiles("web", "prod");
+            context.refresh();
+            
+            ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
+            System.out.println(connectionPool);
+
+            CrudRepository companyRepository = context.getBean("companyRepository", CrudRepository.class);
+            System.out.println(companyRepository.findById(1));
+        }
+        
+         */
         
         /*
             отже ми створили кілька своїх анотацій  @InjectBean,  @Transaction, @Auditing,

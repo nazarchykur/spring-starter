@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
@@ -57,7 +58,20 @@ public class AppConfiguration {
 //  можна передати потрібний бін  через параметр
 //            до параметру також можна застосовувати     @Qualifier("pool2"), якщо потрібно уточнити який саме бін
 //            в даному випадку ми зразу вказали імя  pool2 
+    
+    /*
+        @Profile("prod")
+        часто з цією анотацією можна зустріти символи   ! & | 
+        що відповідно означають  Не І Або
+        
+        @Profile("!prod")     - всі інші тільки не prod
+        @Profile("dev|qa")    - створювати даний бін тоді коли або dev або qa
+        @Profile("prod&web")  - тільки тоді коли прод + веб
+        
+    
+     */
     @Bean
+    @Profile("prod")
     public UserRepository userRepository2(ConnectionPool pool2) {
         return new UserRepository(pool2);
     }
