@@ -1,0 +1,10 @@
+
+S	java:S106""9Replace this use of System.out or System.err by a logger.(ØÙ™ÿÿÿÿÿ
+S	java:S106'"9Replace this use of System.out or System.err by a logger.(×• øúÿÿÿÿ
+S	java:S106-"9Replace this use of System.out or System.err by a logger.(İ­ñ®ùÿÿÿÿ
+M
+java:S1068"2Remove this unused "connectionPool" private field.(ÜÕ¥üÿÿÿÿ
+?
+java:S1068")Remove this unused "pools" private field.(®Ì¢ö
+G
+java:S1068",Remove this unused "poolSize" private field.(£Ÿıÿÿÿÿ

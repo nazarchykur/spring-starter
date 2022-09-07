@@ -1,6 +1,7 @@
 package com.study.spring.database.repository;
 
 import com.study.spring.database.pool.ConnectionPool;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,21 @@ public class UserRepository {
 
     private final ConnectionPool connectionPool;
 
-    public UserRepository(ConnectionPool connectionPool) {
+    
+    /*
+            nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: 
+            No qualifying bean of type 'com.study.spring.database.pool.ConnectionPool' available: 
+                expected single matching bean but found 2: pool1,pool2
+                
+                так як тепер спрінг знайшов 2 біна, то ми уточнюємо через    @Qualifier("pool2") , що це саме    pool2
+                
+                у конфігурації
+                        @Bean
+                        public ConnectionPool pool2() {
+                            return new ConnectionPool("test-name", 20);
+                        }
+     */
+    public UserRepository(@Qualifier("pool2") ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 }
