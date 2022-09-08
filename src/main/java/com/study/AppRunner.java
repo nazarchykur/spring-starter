@@ -1,10 +1,14 @@
-import com.study.spring.config.AppConfiguration;
-import com.study.spring.database.pool.ConnectionPool;
-import com.study.spring.service.CompanyService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+package com.study;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class AppRunner {
-    
+    public static void main(String[] args) {
+        SpringApplication.run(AppRunner.class, args);
+    }
+
     /*
      
      https://spring.io/projects/spring-boot
@@ -83,88 +87,4 @@ public class AppRunner {
                 applications vital for the daily operations of enterprise systems.
                
      */
-    public static void main(String[] args) {
-        /*
-        так як ми переходимо на використання тільки анотації, то замінюємо відповідний контекст клас 
-        замість   ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("application.xml")   де ми вказували xml файл
-        вказуємо  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class)  де передаємо наш конфіг клас
-                
-         */
-
-        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class)) {
-            ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
-            System.out.println(connectionPool);
-
-//            CrudRepository companyRepository = context.getBean("companyRepository", CrudRepository.class);
-            CompanyService companyService = context.getBean("companyService", CompanyService.class);
-            System.out.println(companyService.findById(1));
-        }
-        
-         /*
-                1 спосіб - це додати до  resources/application.properties  spring.profiles.active=prod
-                2 спосіб
-                     так як на момент виклику контексту вже всі біни будуть створені, то щоб створити біни згідно активного профайлу/профайлів
-                        потрбіно викликати   context.refresh();
-                    
-             */
-        /*
-        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
-            context.register(AppConfiguration.class);
-            context.getEnvironment().setActiveProfiles("web", "prod");
-            context.refresh();
-            
-            ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
-            System.out.println(connectionPool);
-
-            CrudRepository companyRepository = context.getBean("companyRepository", CrudRepository.class);
-            System.out.println(companyRepository.findById(1));
-        }
-        
-         */
-        
-        /*
-            отже ми створили кілька своїх анотацій  @InjectBean,  @Transaction, @Auditing,
-            але більшість потрібних анотацій вже є від відповідних постПроцесорів:
-                - BeanPostProcessor:
-                    - AutowiredAnnotationBeanPostProcessor (@Autowired, @Value)
-                    - CommonAnnotationBeanPostProcessor (@Resource, @PostConstruct, @PreDestroy)
-                    - PersistenceAnnotationBeanPostProcessor (@PersistenceContext, @PersistenceUnit)
-               - BeanFactoryPostProcessor:
-                    - ConfigurationClassPostProcessor (@Configuration)
-                    - EventListenerMethodProcessor (@EventListener)  
-                 
-            
-         */
-        
-        
-        
-        /*
-         
-         у центрі 
-                    <context:annotation-config/>
-                    
-                         |                                 |-  ConfigurationClassPostProcessor -- @Configuration                 
-                         | - BeanFactoryPostProcessor    - |
-                         |                                 |-  EventListenerMethodProcessor   --- @EventListener
-                         |
-                         |
-                         |
-                         |                                                                              |- @Autowired
-                         |                                    |- AutowiredAnnotationBeanPostProcessor --|
-                         |                                    |                                         |- @Value
-                         |                                    |
-                         |                                    |
-                         |                                    |                                         |- @Resource
-                         | - BeanPostProcessor -------------- | CommonAnnotationBeanPostProcessor ------|- @PostConstruct
-                                                              |                                         |- @PreDestroy
-                                                              |                                          
-                                                              |
-                                                              |                                          |- @PersistenceContext
-                                                              |- PersistenceAnnotationBeanPostProcessor -|
-                                                                                                         |- @PersistenceUnit                                                                              
-                         
-         */
-
-
-    }
 }

@@ -2,17 +2,14 @@ package com.study.spring.config;
 
 import com.study.spring.database.pool.ConnectionPool;
 import com.study.spring.database.repository.UserRepository;
-import com.study.web.config.WebConfiguration;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.web.config.WebConfiguration;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
 
 
 @Import(WebConfiguration.class)
