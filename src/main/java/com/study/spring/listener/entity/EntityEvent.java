@@ -1,4 +1,4 @@
-package com.study.listener.entity;
+package com.study.spring.listener.entity;
 
 import org.springframework.context.ApplicationEvent;
 

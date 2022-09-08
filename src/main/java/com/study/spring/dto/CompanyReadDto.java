@@ -1,4 +1,4 @@
-package com.study.dto;
+package com.study.spring.dto;
 
 import java.util.Objects;
 

@@ -1,8 +1,8 @@
 package com.study.spring.service;
 
-import com.study.dto.CompanyReadDto;
-import com.study.listener.entity.AccessType;
-import com.study.listener.entity.EntityEvent;
+import com.study.spring.dto.CompanyReadDto;
+import com.study.spring.listener.entity.AccessType;
+import com.study.spring.listener.entity.EntityEvent;
 import com.study.spring.database.entity.Company;
 import com.study.spring.database.repository.CrudRepository;
 import org.springframework.context.ApplicationEventPublisher;

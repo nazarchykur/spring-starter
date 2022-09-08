@@ -3,6 +3,44 @@ package com.study;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/*
+    Одну інструкцію @SpringBootApplication можна використовувати для включення цих трьох функцій, а саме:
+
+    @EnableAutoConfiguration: увімкнути механізм автоконфігурації Spring Boot
+    @ComponentScan: увімкнути сканування @Component для пакета, в якому знаходиться програма
+    @Configuration: дозволяє реєструвати додаткові компоненти (beans) у контексті або імпортувати додаткові класи конфігурації
+    
+        Жодна з цих функцій не є обов'язковою, і ви можете замінити цю єдину інструкцію будь-якої з функцій, які вона включає. 
+        Наприклад, ви можете не захотіти використовувати сканування компонентів або сканування властивостей конфігурації у вашій програмі:
+                @Configuration(proxyBeanMethods = false)
+                @EnableAutoConfiguration
+                @Import({ MyConfig.class, MyAnotherConfig.class })
+                public class Application {
+                    public static void main(String[] args) {
+                        SpringApplication.run(Application.class, args);
+                    }
+                }
+
+    зазвичай  клас який позначений  @SpringBootApplication  має знаходитися в рутовому пакеті на рівні всіх інших папок з підпапками
+              
+                 com.example
+                     +- myapplication
+                         +- Application.java           <==
+                         |
+                         +- customer
+                         |   +- Customer.java
+                         |   +- CustomerController.java
+                         |   +- CustomerService.java
+                         |   +- CustomerRepository.java
+                         |
+                         +- order
+                             +- Order.java
+                             +- OrderController.java
+                             +- OrderService.java
+                             +- OrderRepository.java
+                             
+        це для того щоб автосканувати вміст всіх папок для знаходження компонентів (всіх БІНІВ нашої програми)                      
+ */
 @SpringBootApplication
 public class AppRunner {
     public static void main(String[] args) {
