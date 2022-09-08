@@ -21,3 +21,5 @@ p
 @src/main/java/com/study/spring/database/pool/ConnectionPool.java,8/f/8f22f79a81f02393c4a55b5caa8ebd8cccba2dce
 X
 (gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+v
+Fsrc/main/java/com/study/spring/database/repository/CrudRepository.java,6/3/6366d4ab47b7a95a05cfebdb5e4009f115c1d3cb

@@ -7,267 +7,81 @@ public class AppRunner {
     
     /*
      
-        @Configuration
-        так, як ці анотації йдуть від    BeanFactoryPostProcessor, то вони будуть опрацьовуватися у першу чергу (див перші лекції)
-        
-        флоу +- такий:
-        
-        зазвичай створюється окрема папка  наприклад   config  , де створюється всі потрібні конфігурації
-            - конфігурації щодо БД
-            - для роботи з іншими сервісами
-            - для роботи з веб додатками
-            - для роботи, наприклад з якимось Messages Broker 
-            ...
-            
-        @Bean
-            анотація @Bean , яка застосовується до методу, щоб вказати, що він повертає bean, яким керує контекст Spring. 
-            @Bean зазвичай оголошується в методах класів конфігурації  @Configuration.
-            
-            1)
-            method name => is the bean id/bean name
-            
-            2) можемо надати інший ідентифікатор Bean
-                @Bean(name = "someOtherName") 
-                
-            3) Ще одна цікава річ: ми можемо дати кілька імен цьому методу 
-                @Bean(name = {"name1", "name2"}) 
-                
-          -------------------------------------------------------------------------------------------------------------      
-          
-          ще раз узагальнимо:
-          
-            Зазвичай, коли ми створюємо bean, ми визначаємо його за допомогою інтерфейсу, причому bean є його конкретною реалізацією. 
-            Це забезпечує перевагу можливості заміни реалізацій, просто змінивши файл конфігурації 
-            (припускаючи, що інші реалізації вже створено). 
-            Якщо bean був визначений реалізацією, а не інтерфейсом, коли ви вирішите змінити реалізацію на іншу, 
-            вам потрібно буде знайти всі його використання (які можуть існувати в багатьох окремих файлах).
-            
-                        @Configuration
-                        public class AppConfig {
-                        
-                            @Bean
-                            public MyBean myBean() {
-                                return new MyBeanImpl();
-                            }
-                        
-                            @Bean({"myOtherBean", "beanNameTwo"})
-                            public MyBean myOtherBeanWithDifferentName() {
-                                return new MyOtherBeanImpl();
-                            }
-                        
-                        }
-                        
-                        
-          Тут у нас є @Configuration клас, який ми можемо використовувати для створення та використання компонентів у контексті програми. 
-          
-          @Bean використовується для позначення методу як такого, що створює bean, і Spring додасть його до контексту. 
-          Повернутий тип методу визначає тип створюваного bean-компонента, тому обидва bean-компоненти, створені в цьому прикладі, 
-          будуть посилатися на тип MyBean, а не на їхні реалізації. 
-          Ім'я методу визначатиме ім'я створеного bean-компонента або ім'я/імена можна передати в @Bean анотацію. 
-          Якщо це зроблено за допомогою анотації, просто додайте ім’я bean-компонента або використовуйте масив, 
-          щоб надати кілька псевдонімів bean-компоненту.
-          
-          MyBeanЩе одна річ, на яку слід звернути увагу, це те, що інтерфейс використовують два компоненти . 
-          Через це, коли ці боби вводяться, їх потрібно називати правильними назвами, щоб їх можна було правильно розрізнити 
-          
-          
-           Ще варто згадати, @Component анотації на MyBeanImpl.
-           Це означає що це бін він автоматично знайдеться (auto-detected) Spring-ом , і впринципі 
-           що дозволить виключити її з конфігураційних файлів. 
-           Отже, якби ми хотіли, ми могли б просто видалити файл конфігурації, який було визначено вище, 
-           і програма все одно працюватиме правильно. Хоча, щоб це працювало таким же чином, нам потрібно буде надати 
-           імена компонентам, інакше компонент буде названо за класом, до якого розміщено анотацію. 
-           Таким чином, якщо @Component додано до MyBeanImpl створеного bean-компонента, він буде називатися «myBeanImpl», 
-           тоді як якщо він буде анотований, @Component("myBean")він буде називатися «myBean».
-                        
-                                @Component
-                                public class MyBeanImpl implements MyBean {
-                                
-                                  @Override
-                                  public void someMethod() {
-                                    System.out.println(getClass() + ".someMethod()");
-                                  }
-                                }
-                                
-                                
-          зазвичай у класі конфігурації будуть кілька бінів які якось взаємозалежні, тобто один бін буде як параметр для іншого
-          
-                    @Configuration
-                    public class AppWithInjectionConfig {
+     https://spring.io/projects/spring-boot
+     
+     https://www.pranaybathini.com/2021/07/understanding-spring-framework-and-ecosystem.html
                     
-                          @Autowired private MyBean myOtherBean;
-                        
-                          @Bean
-                          public MyBean myBeanWithInjection(final MyBean myBean) {
-                            return new MyBeanWithInjectionImpl(myBean);
-                          }
-                        
-                          @Bean
-                          public MyBean myOtherBeanWithInjection(@Qualifier("myOtherBean") final MyBean myBean) {
-                            return new MyBeanWithInjectionImpl(myBean);
-                          }
-                        
-                          @Bean
-                          public MyBean myBeanWithAutowiredDependency() {
-                            return new MyBeanWithInjectionImpl(myOtherBean);
-                          }
-                        
-                          @Bean
-                          public MyBean myBeanWithMethodInjectedDependency() {
-                            return new MyBeanWithInjectionImpl(myBeanWithAutowiredDependency());
-                          }
-                    } 
-                    
-                    
-            Тут ми розглянемо, як створити bean-компоненти, які вимагають впровадження залежностей. 
-            Якщо ви подивитеся на перший метод myBeanWithInjection, він приймає myBean як один із своїх параметрів і 
-            передає його в конструктор MyBeanWithInjection. 
-            
-            Якщо вказати myBeanв параметрі методу, Spring шукатиме bean відповідного типу, якщо існує лише один, 
-            або за ідентифікатором, якщо є кілька версій. Отриманий bean потім вставляється в bean, який створюється. 
-            
-            Наступні методи в цьому прикладі демонструють подібні способи впровадження залежностей, оскільки всі вони 
-            використовують ін’єкцію конструктора, але отримують ін’єктований bean різними способами. 
-            
-            myOtherBeanWithInjection використовує @Qualifier щоб вказати ім’я bean-компонента, який слід отримати з контексту, 
-            дозволяючи параметру мати іншу назву, що може бути корисним, якщо ім’я bean-компонента дуже довге, 
-            і ви не хочете писати його кілька разів і myBeanWithAutowiredDependency використовуєте @Autowired анотація 
-            для отримання myOtherBean з контексту. 
-            
-            Інший спосіб введення bean-компонента — це виклик іншого методу, який має анотацію @Bean зсередини 
-            конструктора або методу bean-компонента, який ви хочете створити. 
-            
-            Ви вирішуєте, чи віддаєте перевагу цьому способу отримання bean-компонента чи ні, але він має обмеження 
-            на роботу лише з bean-компонентами, які були визначені в тому самому файлі конфігурації.
-
-            
-            
-            Існує також інший спосіб, який слід згадати, а не введення залежностей через конструктори, залежності можуть 
-            бути введені в bean безпосередньо за допомогою @Autowired анотації до властивості, яку потрібно отримати. 
-            Це виглядатиме так, як показано нижче.
-            
-                        @Component
-                        public class MyBeanWithInjectionImpl implements MyBean {
-                        
-                            @Autowired
-                            private MyBean myBean;
-                        
-                            @Override
-                            public void someMethod() {
-                                System.out.print("from injection: ");
-                                myBean.someMethod();
-                            }
-                        }
-                           
-           Недолік використання@Autowiredпорівняно з ін’єкцією конструктора полягає в тому, що він приховує конфігурацію 
-           від розробника через те, що залучає залежності, які згадуються лише всередині його класу, що ускладнює для 
-           нас побачити, які залежності використовуються в компонентах під час перегляду файлів конфігурації. 
-           При використанні ін’єкції конструктора зрозуміло, що потрібно, і bean не може бути створений, доки все 
-           необхідне не буде отримано та передано в конструктор.
-           
-           в обох способів є свої плюси і мінуси
-           
-           
-           
-           
-           
-           
-           
-           @Configuration
-            public class AppWithPropertyInjectionConfig {
-            
-                @Value("${propertyOne}")
-                private String propertyOne;
-            
-                @Value("${propertyTwo}")
-                private String propertyTwo;
-            
-                @Bean
-                public MyBean myBeanWithProperties() {
-                    return new MyBeanWithPropertiesImpl(propertyOne, propertyTwo);
-                }
-            
-                @Bean
-                public MyBean myOtherBeanWithProperties(
-                                @Value("${propertyOne}") final String propertyOne,
-                                @Value("${propertyTwo}") final String propertyTwo) {
-                    return new MyBeanWithPropertiesImpl(propertyOne, propertyTwo);
-                }
-            
-                @Bean
-                public MyBean myBeanWithMethodInjectedProperties() {
-                    return new MyBeanWithInjectionImpl(myOtherBeanWithProperties(null, null));
-                }
-            }
-            
-          Перше, на що ми повинні звернути увагу, це @Valueанотація, яка читає значення з файлу властивостей. 
-          Наразі ці значення зчитуються з application.properties.                    
-     */
-
-
-    /*
-        @Profile
-        
-        Ми використовуємо анотацію @Profile — ми зіставляємо bean з цим конкретним профілем ; анотація просто бере назви одного (або кількох) профілів.
-        
-        Розглянемо базовий сценарій: у нас є компонент, який має бути активним лише під час розробки, але не розгортатися у виробництві.
-        
-        Ми коментуємо цей компонент за допомогою     @Profile("dev"), і він буде присутній у контейнері лише під час розробки. 
-        У   production    бін позначений dev profile  просто не буде активним
-        
-        
-        Наступним кроком є активація та налаштування профілів, щоб відповідні компоненти було зареєстровано в контейнері.
-        
-        Це можна зробити кількома способами, які ми розглянемо в наступних розділах.
-            1) Програмно через інтерфейс WebApplicationInitializer
-            
-                    @Configuration
-                    public class MyWebApplicationInitializer 
-                      implements WebApplicationInitializer {
-                    
-                        @Override
-                        public void onStartup(ServletContext servletContext) throws ServletException {
-                     
-                            servletContext.setInitParameter(
-                              "spring.profiles.active", "dev");
-                        }
-                    }
-                    
-             2) Програмно через ConfigurableEnvironment       
-                        @Autowired
-                        private ConfigurableEnvironment env;
-                        ...
-                        env.setActiveProfiles("someProfile"); 
-                        
-              3) Параметр контексту в web.xml    
-              
-              4) Системний параметр JVM
-                        -Dspring.profiles.active=dev
-                        
-              5) Через  Maven
-              
-              6) самий простий спосіб    у application.properties :
-                        spring.profiles.active=dev
-                        
-               
-               7) @ActiveProfile у тестах    
-                            @ActiveProfiles("dev")  
-                            
-                            
-       ------------------------------------------------------------
-       Спеціальні для профілю файли властивостей
-        
-       Однак найважливішою пов’язаною з профілями функцією Spring Boot є файли властивостей профілю. 
-       Їх потрібно назвати у форматі    application-{profile}.properties .                     
-                            
-       Spring Boot автоматично завантажить властивості у файлі   application.properties   для всіх профілів, 
-       а властивості у файлах   .properties   для певного профілю лише для вказаного профілю.                     
-                            
-       Наприклад, ми можемо налаштувати різні джерела даних для профілів dev і production за допомогою двох файлів з іменами:     
-                application-dev.properties 
-                application-production.properties                    
-                         
+      Spring Framework – екосистема та огляд
+      
+         Коли люди говорять про Spring, вони мають на увазі всю екосистему проектів Spring, як-от spring framework, 
+         spring boot, spring data, spring cloud, spring batch та багато інших проектів.
+         
+         Spring виник у відповідь на J2EE, щоб значно спростити розробку та доступ до даних. 
+         Це також спрямовано на зменшення бойлер коду (повторюваний код, який часто потрібен і захаращує програму => 
+         щоб сфокусуватися тільки на основній логіці).
+         Успіх Spring Framework призвів до створення інших Spring-проектів, які будуються на його основі.
+         Приклад: spring data полегшує доступ до даних. 
+         Spring security обробляє аспекти безпеки програми Java.
+         
+         Spring boot справді змінює правила гри. 
+         До Spring boot створення програми Spring вимагало багато вибору, конфігурації та громіздкої моделі розгортання.
+         Spring boot видалив усі нудні аспекти Spring і включив розумні автоматичні налаштування за замовчуванням для 
+         вибору бібліотеки, конфігурації та заглушок для автоматичного визначення та додавання загальної конфігурації.
+         Це також значно спростило процес розгортання, запустивши просту команду.
+         Spring Cloud було побудовано на основі Spring Boot і спрощує створення програм, які використовують розподілену архітектуру.                    
     
+    
+    
+         Spring Framework проти Spring boot
+            Spring boot дозволяє розробникам швидко та легко вивчити його. 
+            
+            
+         Notable Features
+            - Auto-configuration 
+            - Stand alone - do not need to deploy to webserver. Just run it with a command.
+            - Opinionated - default settings are opinion of majority.   
+            
+            
+         Auto-configuration
+             - Намагається автоматично налаштувати вашу програму для завантаження Spring на основі доданих вами функцій.
+             - Автоматичні конфігурації розумні та з урахуванням контексту. напр. Якщо програма має залежність від бази даних, 
+                вона намагається налаштувати програму для доступу до бази даних.
+             - Налаштувати автоматичну конфігурацію легко. Просто додайте анотацію @EnableAutoConfiguration. 
+                Думайте про анотації як про додатковий код, який читайте під час виконання, щоб приймати рішення.
+             - Крім того, конфігурації також легко вимкнути.
+             
+         Stand-alone    
+            - Відповідно до проекту spring boot, " Spring boot полегшує створення автономних програм на основі Spring, які можна просто запускати ".
+            - Упаковка вашої програми (war / jar)
+            - Завантаження веб-сервера – різні варіанти з різними функціями.
+            - Прийнявши рішення, завантажте та налаштуйте веб-сервер. Залежно від сервера може бути складним або простим.
+            - Нарешті, розгорніть програму (скопіюйте в певний каталог) і запустіть веб-сервер.
+         
+         Opinionated view   
+            - Під час створення додатків Java у нас є маса варіантів, таких як вибір журналювання, вибір конфігурації, 
+                вибір інструментів, вибір інструментів для створення тощо.
+            - Розробник може будь-коли перезаписати будь-який із варіантів.
+            
+            
+         Spring Projects
+            - There are 22 spring projects active now.  Few of them are
+            
+            - Spring boot    - Spring Boot makes it easy to create stand-alone, production-grade spring based 
+                Applications that you can "just run". No need of any extra configurations.
+            - Spring Data   - Spring Data provides a familiar and consistent, Spring-based programming model for 
+                data access while still retaining the special features of the underlying data store.
+            - Spring Cloud - Spring Cloud provides tools for developers to quickly build some of the 
+                common patterns in distributed systems like configuration management, service discovery,    
+                circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks,     
+                leadership election, distributed sessions, cluster state. Coordination of distributed systems   
+                leads to boiler plate patterns, and using Spring Cloud developers can quickly stand up services 
+                and applications that implement those patterns. They will work well in any distributed environment,     
+                including the developer’s own laptop, bare metal data centres.
+            - Spring Security - Spring Security is a powerful and highly customizable authentication and access-control 
+                framework which is the de-facto standard for securing Spring-based applications.
+            - Spring Batch  - A lightweight batch framework designed to enable the development of robust batch      
+                applications vital for the daily operations of enterprise systems.
+               
      */
     public static void main(String[] args) {
         /*
