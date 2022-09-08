@@ -1,5 +1,6 @@
 package com.study.spring.database.pool;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -7,16 +8,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component("pool1")
+@RequiredArgsConstructor
 public class ConnectionPool {
-    //public class ConnectionPool {
+    @Value("${db.username}")
     private final String username;
+    @Value("${db.pool.size}")
     private final Integer poolSize;
-
-    public ConnectionPool(@Value("${db.username}") String username,
-                          @Value("${db.pool.size}")  Integer poolSize) {
-        this.username = username;
-        this.poolSize = poolSize;
-    }
 
     /*
          так як ми добавили до полів   final  , то ми хочемо щоб обєкт був  immutable

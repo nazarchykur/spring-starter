@@ -4,6 +4,7 @@ import com.study.spring.bpp.Auditing;
 import com.study.spring.bpp.Transaction;
 import com.study.spring.database.entity.Company;
 import com.study.spring.database.pool.ConnectionPool;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -15,19 +16,13 @@ import java.util.Optional;
 @Repository
 @Transaction
 @Auditing
+@RequiredArgsConstructor
 public class CompanyRepository implements CrudRepository<Integer, Company> {
-
+    @Qualifier("pool1")
     private final ConnectionPool connectionPool;
     private final List<ConnectionPool> pools;
+    @Value("${db.pool.size}")
     private final Integer poolSize;
-
-    public CompanyRepository(@Qualifier("pool1") ConnectionPool connectionPool,
-                             List<ConnectionPool> pools,
-                             @Value("${db.pool.size}") Integer poolSize) {
-        this.connectionPool = connectionPool;
-        this.pools = pools;
-        this.poolSize = poolSize;
-    }
 
     @PostConstruct
     public void init() {
