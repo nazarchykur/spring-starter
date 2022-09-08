@@ -17,15 +17,7 @@ o
 ?src/main/java/com/study/spring/bpp/InjectBeanPostProcessor.java,b/b/bbab40845abf78e5fe95d0f5677ba9b78719159b
 c
 3src/main/java/com/study/spring/bpp/Transaction.java,7/d/7de0c2f6ca0ca37c25980862a875a23c77f4c5fb
-v
-Fsrc/main/java/com/study/spring/database/repository/CrudRepository.java,6/3/6366d4ab47b7a95a05cfebdb5e4009f115c1d3cb
 p
 @src/main/java/com/study/spring/database/pool/ConnectionPool.java,8/f/8f22f79a81f02393c4a55b5caa8ebd8cccba2dce
-y
-Isrc/main/java/com/study/spring/database/repository/CompanyRepository.java,5/d/5df1fd4ef3d0cec3884ed008268b01ed331ecd49
-k
-;src/main/java/com/study/spring/database/entity/Company.java,4/7/47644854f4a991f54a6c779863ba8ec183ab7f47
 X
 (gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
-j
-:src/main/java/com/study/spring/service/CompanyService.java,f/5/f5d561b7c77c7534e5b4ae0a221ff57aed6f4637

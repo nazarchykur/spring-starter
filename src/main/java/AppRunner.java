@@ -1,9 +1,7 @@
 import com.study.spring.config.AppConfiguration;
 import com.study.spring.database.pool.ConnectionPool;
-import com.study.spring.database.repository.CompanyRepository;
-import com.study.spring.database.repository.CrudRepository;
+import com.study.spring.service.CompanyService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AppRunner {
     
@@ -205,9 +203,8 @@ public class AppRunner {
           Перше, на що ми повинні звернути увагу, це @Valueанотація, яка читає значення з файлу властивостей. 
           Наразі ці значення зчитуються з application.properties.                    
      */
-    
-    
-    
+
+
     /*
         @Profile
         
@@ -284,8 +281,9 @@ public class AppRunner {
             ConnectionPool connectionPool = context.getBean("pool1", ConnectionPool.class);
             System.out.println(connectionPool);
 
-            CrudRepository companyRepository = context.getBean("companyRepository", CrudRepository.class);
-            System.out.println(companyRepository.findById(1));
+//            CrudRepository companyRepository = context.getBean("companyRepository", CrudRepository.class);
+            CompanyService companyService = context.getBean("companyService", CompanyService.class);
+            System.out.println(companyService.findById(1));
         }
         
          /*
