@@ -16,3 +16,6 @@ logging:
     root: WARN
     com.study.spring.database.pool.ConnectionPool: INFO
 #    com.study.spring.database.pool: INFO   -> for some package
+  file:
+    name: test.log
+    path: /

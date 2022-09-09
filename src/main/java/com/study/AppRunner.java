@@ -158,9 +158,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 
         This feature allows us to use 'short' command line arguments.
                 app.title=Boot ${app}
+  
+ */
 
+/*
+    якщо хочемо самі налаштувати формат логування
+            https://logback.qos.ch/manual/configuration.html
+    
 
-      
  */
 @SpringBootApplication
 public class AppRunner {
