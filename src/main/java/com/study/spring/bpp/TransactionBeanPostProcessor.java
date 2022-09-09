@@ -1,5 +1,6 @@
 package com.study.spring.bpp;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
+
+@Slf4j
 @Component
 public class TransactionBeanPostProcessor implements BeanPostProcessor {
 
@@ -57,11 +60,11 @@ public class TransactionBeanPostProcessor implements BeanPostProcessor {
              */
             return Proxy.newProxyInstance(beanClass.getClassLoader(), beanClass.getInterfaces(), 
                     (proxy, method, args) -> {
-                System.out.println("open transaction");
+                        log.info("open transaction");
                 try {
                     return method.invoke(bean, args);
                 } finally {
-                    System.out.println("close transaction");
+                    log.info("close transaction");
                 }
             });
         }

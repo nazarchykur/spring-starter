@@ -5,6 +5,7 @@ import com.study.spring.bpp.Transaction;
 import com.study.spring.database.entity.Company;
 import com.study.spring.database.pool.ConnectionPool;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 @Transaction
 @Auditing
@@ -26,17 +28,17 @@ public class CompanyRepository implements CrudRepository<Integer, Company> {
 
     @PostConstruct
     public void init() {
-        System.out.println("Init company repository");
+        log.info("Init company repository");
     }
 
     @Override
     public Optional<Company> findById(Integer id) {
-        System.out.println("findById() ...");
+        log.info("findById() ...");
         return Optional.of(new Company(id));
     }
 
     @Override
     public void delete(Company entity) {
-        System.out.println("delete() ...");
+        log.info("delete() ...");
     }
 }

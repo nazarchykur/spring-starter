@@ -10,3 +10,9 @@ db:
 
 #spring.profiles.active:qa
 #spring.profiles.active:prod
+
+logging:
+  level:
+    root: WARN
+    com.study.spring.database.pool.ConnectionPool: INFO
+#    com.study.spring.database.pool: INFO   -> for some package

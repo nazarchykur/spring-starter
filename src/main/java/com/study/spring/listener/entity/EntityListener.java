@@ -1,5 +1,6 @@
 package com.study.spring.listener.entity;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,13 +26,13 @@ import org.springframework.stereotype.Component;
         Видавцем і слухачем EventListener можна керувати лише в одній програмі Spring. Нам потрібно буде 
         використовувати зовнішню чергу повідомлень, щоб розповсюдити їх по мережі (наприклад, Kafka, RabbitMQ).
  */
-
+@Slf4j
 @Component
 public class EntityListener {
 
     @EventListener
     @Order(10)
     public void acceptEntity(EntityEvent entityEvent) {
-        System.out.println("Entity: " + entityEvent);
+        log.info("Entity: " + entityEvent);
     }
 }
