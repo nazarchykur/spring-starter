@@ -1,0 +1,12 @@
+db:
+  username: postgres
+  password: pass
+  driver: PostgresDriver
+  url:postgres: 5432
+  hosts: localhost,127.0.0.1
+  pool:
+    size: 12
+    timeout: 10
+
+#spring.profiles.active:qa
+#spring.profiles.active:prod
