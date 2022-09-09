@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.study.spring.service.CompanyServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-09T14:11:16" hostname="user-Nitro-AN515-54" time="0.322">
+  <properties/>
+  <testcase name="findById()" classname="com.study.spring.service.CompanyServiceTest" time="0.322"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
