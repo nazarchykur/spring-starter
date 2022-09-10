@@ -1,45 +1,18 @@
-2022-09-09 15:03:24.465  WARN 322373 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:03:24.484  WARN 322373 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:03:24.486  WARN 322373 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:03:25.652  INFO 322373 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:03:25.652  INFO 322373 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:03:25.652  INFO 322373 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:07:39.974 ERROR 323773 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
-
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-Failed to bind properties under 'logging.level.com.study' to org.springframework.boot.logging.LogLevel:
-
-    Property: logging.level.com.study
-    Value: WARM
-    Origin: "logging.level.com.study" from property source "systemProperties"
-    Reason: failed to convert java.lang.String to org.springframework.boot.logging.LogLevel (caused by java.lang.IllegalArgumentException: No enum constant org.springframework.boot.logging.LogLevel.WARM)
-
-Action:
-
-Update your application's configuration. The following values are valid:
-
-    DEBUG
-    ERROR
-    FATAL
-    INFO
-    OFF
-    TRACE
-    WARN
-
-2022-09-09 15:07:58.644  WARN 324072 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:07:58.659  WARN 324072 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:07:58.660  WARN 324072 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:07:58.727  INFO 324072 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:07:58.727  INFO 324072 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:07:58.728  INFO 324072 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:08:47.433  WARN 324461 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:08:47.445  WARN 324461 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:08:47.447  WARN 324461 --- [main] c.s.spring.database.pool.ConnectionPool  : Init connection pool
-2022-09-09 15:08:47.510  INFO 324461 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:08:47.511  INFO 324461 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
-2022-09-09 15:08:47.511  INFO 324461 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 17:59:27.649  WARN 509079 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 17:59:27.674  WARN 509079 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 17:59:27.675  WARN 509079 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 17:59:28.173  WARN 509079 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 17:59:28.176  WARN 509079 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 17:59:28.178  WARN 509079 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 17:59:28.257  INFO 509079 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 17:59:28.258  INFO 509079 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 17:59:28.258  INFO 509079 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 17:59:28.260  INFO 509079 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 17:59:28.260  INFO 509079 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 17:59:28.261  INFO 509079 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 18:00:49.988  WARN 509571 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 18:00:50.002  WARN 509571 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 18:00:50.003  WARN 509571 --- [Test worker] c.s.spring.database.pool.ConnectionPool  : Init connection pool
+2022-09-10 18:00:50.231  INFO 509571 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 18:00:50.231  INFO 509571 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
+2022-09-10 18:00:50.232  INFO 509571 --- [SpringApplicationShutdownHook] c.s.spring.database.pool.ConnectionPool  : Clean connection pool
