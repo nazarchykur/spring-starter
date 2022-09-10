@@ -50,8 +50,5 @@ class CompanyServiceTest {
         verify(companyRepository).findById(COMPANY_ID);
         verify(eventPublisher).publishEvent(any(EntityEvent.class));
         verifyNoMoreInteractions(companyRepository, eventPublisher, userService);
-        
-        
-        
     }
 }

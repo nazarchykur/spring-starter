@@ -5,6 +5,7 @@ import com.study.spring.listener.entity.AccessType;
 import com.study.spring.listener.entity.EntityEvent;
 import com.study.spring.database.entity.Company;
 import com.study.spring.database.repository.CrudRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
