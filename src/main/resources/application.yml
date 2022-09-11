@@ -6,7 +6,7 @@ db:
   hosts: localhost,127.0.0.1
   pool:
     size: 12
-    timeout: 10
+    timeout: 10 
 
 #spring.profiles.active:qa
 #spring.profiles.active:prod
@@ -34,3 +34,5 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        hbm2ddl:
+          auto: validate
