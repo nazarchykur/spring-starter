@@ -2,7 +2,7 @@ db:
   username: postgres
   password: pass
   driver: PostgresDriver
-  url:postgres: 5432
+  url: postgres:5432
   hosts: localhost,127.0.0.1
   pool:
     size: 12
@@ -11,11 +11,26 @@ db:
 #spring.profiles.active:qa
 #spring.profiles.active:prod
 
+
+
 logging:
   level:
-    root: WARN
+    root: INFO
     com.study.spring.database.pool.ConnectionPool: INFO
 #    com.study.spring.database.pool: INFO   -> for some package
-  file:
-    name: test.log
-    path: /
+#for logging in file here
+#  file:
+#    name: test.log
+
+#darasourse config
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
