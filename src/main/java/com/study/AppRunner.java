@@ -47,6 +47,28 @@ import org.springframework.context.ConfigurableApplicationContext;
             
  */
 
+/*
+    Transactional
+    
+     Отже ми бачимо як просто налаштовувати тепер JPA/Hibernate з допомогою файла пропертіс
+     
+     так як у Spring Boot в нас багато автоконфігурується, то з залежністю 
+            implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+            
+     залишається через передати кілька основних полів через пропертіс і все готово
+     
+     
+     
+     Розглянемо як відбувається робота з транзакціями       
+     
+     TransactionManager
+        TransactionManager автоконфігурується через JpaBaseConfiguration
+        
+        TransactionManager можна використовувати кількома способами:
+            - деклеративний з допомогою анотації @Transactional  ( простий і у більшості випадків цей спосіб будемо використовувати)
+            - вручну через TransactionTemplate, тобто так, як ми управляємо в Hibernate, коли самі відкриваємо і закриваємо/ревертаємо зміни
+ */
+
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
