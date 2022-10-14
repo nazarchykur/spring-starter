@@ -11,14 +11,8 @@ k
 0src/main/java/com/study/spring/bpp/Auditing.java,8/0/808c52efaad8f30f524445a8d30a389882e95717
 b
 2src/main/java/com/study/spring/bpp/InjectBean.java,0/b/0b4920e7c916c3ef37775dd557d603f8a63006b6
-o
-?src/main/java/com/study/spring/bpp/InjectBeanPostProcessor.java,b/b/bbab40845abf78e5fe95d0f5677ba9b78719159b
 c
 3src/main/java/com/study/spring/bpp/Transaction.java,7/d/7de0c2f6ca0ca37c25980862a875a23c77f4c5fb
-q
-Asrc/main/java/com/study/spring/bpp/AuditingBeanPostProcessor.java,5/5/555e2d466eb0cb84c8b09aa7c2214d2a605c4c9c
-t
-Dsrc/main/java/com/study/spring/bpp/TransactionBeanPostProcessor.java,6/6/664012a9f34ddf91f6b02229b4bcc1d0c2b62c8b
 g
 7src/main/java/com/study/spring/service/UserService.java,0/5/05db313db61ef143e093129c436b3093c18e9555
 8
@@ -35,5 +29,3 @@ n
 >src/main/java/com/study/spring/listener/entity/AccessType.java,a/d/ad1c5a78fe59da21beee54a7a05e6d2ffd3afbab
 b
 2src/main/java/com/web/config/WebConfiguration.java,e/1/e19e6ff58defdffe5f1cf65f5de953407ebd5119
-r
-Bsrc/main/java/com/study/spring/listener/entity/EntityListener.java,b/9/b9f78ef627dd57fd4c819acb363011c46c280eab

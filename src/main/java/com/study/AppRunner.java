@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /*
     hibernate
@@ -67,6 +68,43 @@ import org.springframework.context.ConfigurableApplicationContext;
         TransactionManager можна використовувати кількома способами:
             - деклеративний з допомогою анотації @Transactional  ( простий і у більшості випадків цей спосіб будемо використовувати)
             - вручну через TransactionTemplate, тобто так, як ми управляємо в Hibernate, коли самі відкриваємо і закриваємо/ревертаємо зміни
+ */
+
+/*
+    Отже як працює Transaction
+    Transaction працює через AOP
+    
+        TransactionAutoConfiguration
+        
+        1) можна глянути що вона спрацьовує тоді коли
+            
+            @ConditionalOnClass(PlatformTransactionManager.class) 
+        який створюється у Hibernate автоконфігурації
+        
+        2) і після того як  
+            @AutoConfigureAfter({ JtaAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
+		        DataSourceTransactionManagerAutoConfiguration.class, Neo4jDataAutoConfiguration.class })
+		    тобто якщо ми працюємо з   Hibernate, то можна добавити як ми будемо працювати з   TransactionManager (деклеративний або вручну)
+		    
+        3) @EnableConfigurationProperties(TransactionProperties.class) тут можна подивитися на TransactionProperties
+         які налаштовуються через префікс   spring.transaction
+                @ConfigurationProperties(prefix = "spring.transaction")
+                
+        4) далі бачимо основні класи:
+            -  TransactionTemplate    для ручного управління транзакціями
+            
+            - EnableTransactionManagementConfiguration    який налаштовує через упраління через анотацію  @Transactional
+            
+         
+         !!! без автоконфігурації (тобто без Spring Boot) потрібно використовувати 
+                    @EnableTransactionManagement   -   щоб включити вручну цей механізм опрацювання    @Transactional
+              
+            отже у EnableTransactionManagementConfiguration  бачимо що через ПРОКСІ   
+            за допомогою якого ми можемо добавляти новий функціонал на вже існуючі класи  
+            
+             - JdkDynamicAutoProxyConfiguration   - по замовчуванні виключений
+             - CglibAutoProxyConfiguration   - включений   (працює тільки для ПАБЛІК методів)
+                            
  */
 
 
