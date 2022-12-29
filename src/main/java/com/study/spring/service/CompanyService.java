@@ -103,6 +103,21 @@ import java.util.Optional;
                    - краще виносити методи які довго працюють  поза межами транзакції      
  */
 
+/*
+    TransactionalAutoConfiguration
+    
+    * так як тут використовується Spring Boot, то через цю TransactionalAutoConfiguration у нас вже налаштований TransactionalManager
+            
+            саме тут бачимо JdkDynamicAutoProxyConfiguration і CglibAutoProxyConfiguration 
+            
+            так як ми вже знаємо, що через проксі можемо добавляти новий функціонал до вже створеного класу
+            
+    * без автоконфігурації (без Spring Boot) потрібно використовувати анотацію @EnableTransactionalManager вручну,
+      щоб включити механізм опрацювання @Transactional
+      
+      
+ */
+
 @Service
 @RequiredArgsConstructor
 @Transactional // !!! from Spring
